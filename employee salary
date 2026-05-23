@@ -1,0 +1,41 @@
+import csv
+def calculate_total_salary(basic_pay):
+    hra = 0.20 * basic_pay
+    da = 0.10 * basic_pay
+    return basic_pay + hra + da
+
+filename = 'employees.csv'
+header = ['Employee ID', 'Name', 'Basic Pay']
+
+f = open(filename, 'w', newline='')
+writer = csv.writer(f)
+writer.writerow(header)
+
+num_employees = int(input("How many employees do you want to add? "))
+
+for i in range(num_employees):
+    print(f"\nEntering details for employee {i + 1}:")
+    emp_id = input("Employee ID: ")
+    name = input("Name: ")
+    basic_pay = float(input("Basic Pay: "))
+
+    record = [emp_id, name, basic_pay]
+    writer.writerow(record)
+
+f.close()
+print(f"\nData successfully saved to {filename}.")
+
+print("\n--- Employee Salary Report ---")
+f = open(filename, 'r')
+reader = csv.reader(f)
+next(reader)
+for row in reader:
+    eid = row[0]
+    ename = row[1]
+    epay = float(row[2])
+
+    total = calculate_total_salary(epay)
+
+    print(f"ID: {eid} | Name: {ename} | Total Salary: {total:.2f}")
+
+f.close()
